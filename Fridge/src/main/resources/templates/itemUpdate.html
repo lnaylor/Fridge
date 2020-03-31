@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Update Item</title></head>
+<body>
+<h1>Update Item</h1>
+	Refrigerator ID: <b th:text="${refrigerator.id}" /> <br/>
+	
+	<form th:action="@{/update}" method="post" enctype="multipart/form-data">
+		<div>
+			Item name: <input name="itemName" th:value="${item.name}" />
+		</div>
+		<div>
+			Amount: <input name="count" th:value="${item.count}"/>
+		</div>
+		<div>
+			<input type="submit" value="Update Item" name="button"/>
+		</div>
+	</form>
+</body>
+</html>

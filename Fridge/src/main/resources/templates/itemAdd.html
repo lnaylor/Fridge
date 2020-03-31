@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Add Item</title></head>
+<body>
+<h1>Add Item</h1>
+	Refrigerator ID: <b th:text="${refrigerator.id}" /> <br/>
+	
+	<form th:action="@{/add}" method="post" enctype="multipart/form-data">
+		<div>
+			Item name: <input name="itemName" />
+		</div>
+		<div>
+			Amount: <input name="count" />
+		</div>
+		<div>
+			<input type="submit" value="Add Item" name="button"/>
+		</div>
+	</form>
+</body>
+</html>

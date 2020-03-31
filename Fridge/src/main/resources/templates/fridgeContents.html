@@ -1,7 +1,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>Fridge Contents</title></head>
 <body>
-<h1>Fridge</h1>
-	Name: <b th:text="${refrigerator.id}" /> <br/>
+<h1>Fridge Contents</h1>
+	Refrigerator ID: <b th:text="${refrigerator.id}" /> <br/>
+	<table>
+		<tr>
+			<th>Item Name</th>
+			<th>Amount</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr th:each="item : ${items}">
+			<td th:text="${item.name}"></td>
+			<td th:text="${item.count}"></td>
+			<td>
+				<a th:href="@{/refrigerator/update/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Update</a>
+			</td>
+			
+			<td>
+				<a th:href="@{/refrigerator/delete/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Delete</a>
+			</td>
+		</tr>
+	</table>
+	<a th:href="@{/refrigerator/add/{id}(id=${refrigerator.id})}">Add Item</a>
 </body>
 </html>
