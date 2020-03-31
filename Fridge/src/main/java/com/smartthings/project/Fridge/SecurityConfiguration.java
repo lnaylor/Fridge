@@ -12,14 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
- 
-   /* @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .anyRequest()
-            .permitAll()
-            .and().csrf().disable();
-    }*/
     
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -30,22 +22,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .and()
           .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
     }
- 
-  /*  @Override
-    protected void configure(final HttpSecurity http) throws Exception {
-    	http
-		.authorizeRequests()
-			.antMatchers("/fridgeContents").hasRole("USER")			
-			.and()
-		.formLogin()
-			.loginPage("/login").failureUrl("/login-error");
-    }*/
     
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
 				.antMatchers("/refrigerator/update/**").hasRole("ADMIN")
+				.antMatchers("/refrigerator/delete/**").hasRole("ADMIN")
 				.antMatchers("/login").permitAll()
 				.anyRequest().authenticated()
 				.and()
