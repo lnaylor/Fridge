@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"s>
 <head><title>Fridge Contents</title></head>
 <body>
 <h1>Fridge Contents</h1>
@@ -14,11 +15,11 @@
 			<td th:text="${item.name}"></td>
 			<td th:text="${item.count}"></td>
 			<td>
-				<a th:href="@{/refrigerator/update/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Update</a>
+				<a sec:authorize="hasRole('ADMIN')" th:href="@{/refrigerator/update/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Update</a>
 			</td>
 			
 			<td>
-				<a th:href="@{/refrigerator/delete/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Delete</a>
+				<a sec:authorize="hasRole('ADMIN')" th:href="@{/refrigerator/delete/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Delete</a>
 			</td>
 		</tr>
 	</table>

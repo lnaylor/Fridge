@@ -30,8 +30,24 @@ public class FridgeController {
 		fridgeList.add(new Refrigerator());
 		fridgeList.add(new Refrigerator());
 	}
- 
-    @GetMapping("/")
+	
+	@GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+	
+	@GetMapping("/accessDenied")
+    public String accessDenied(Model model) {
+        return "redirect:/fridgeHome";
+    }
+	
+	@GetMapping("/")
+    public String homePageRedirect(Model model) {
+        model.addAttribute("fridges", fridgeList);
+        return "redirect:/fridgeHome";
+    }
+	
+    @GetMapping("/fridgeHome")
     public String homePage(Model model) {
         model.addAttribute("fridges", fridgeList);
         return "fridgeHome";
