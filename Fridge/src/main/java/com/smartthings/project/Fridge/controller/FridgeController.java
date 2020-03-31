@@ -56,10 +56,12 @@ public class FridgeController {
     }
     
     @PostMapping(value="/update")
-	public String updateItem(@RequestParam String itemName, @RequestParam int count, @RequestParam Long fridgeId, 
+	public String updateItem(@RequestParam String itemName, @RequestParam String count, @RequestParam Long fridgeId, 
 			@RequestParam Long itemId, Model model) {
+    	int amount = count.isEmpty() ? 0 : Integer.valueOf(count);
+  
     	fridgeService.deleteItem(fridgeId, itemId);
-    	Long id = fridgeService.addItem(fridgeId, itemName, count);
+    	Long id = fridgeService.addItem(fridgeId, itemName, amount);
     	
     	return "redirect:/refrigerator/"+id;
     }

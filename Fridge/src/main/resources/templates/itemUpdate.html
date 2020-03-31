@@ -6,10 +6,10 @@
 	
 	<form th:action="@{/update}" method="post" enctype="multipart/form-data">
 		<div>
-			Item name: <input name="itemName" th:value="${item.displayName}" />
+			Item name: <input required name="itemName" th:value="${item.displayName}" />
 		</div>
 		<div>
-			Amount: <input name="count" th:value="${item.count}"/>
+			Amount: <input type="number" name="count" th:value="${item.count}"/>
 		</div>
 		<div style="display: none;">
 			<input name="fridgeId" th:value="${refrigerator.id}" />
