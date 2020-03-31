@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Home Page</title></head>
+<body>
+<h1>Refrigerators: </h1>
+<table>
+		<tr>
+			<th>Refrigerator</th>
+		</tr>
+		<tr th:each="refrigerator : ${fridges}">
+			<td th:text="${refrigerator.id}"></td>
+			<td>
+				<a th:href="@{/refrigerator/{id}(id=${refrigerator.id})}">View Contents</a>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
