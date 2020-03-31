@@ -34,6 +34,7 @@ public class FridgeController {
 	
     @GetMapping("/fridgeHome")
     public String fridgeHome(Model model) {
+    	fridgeService.setSodaError(false);
         model.addAttribute("fridges", fridgeService.getAllFridges());
         return "fridgeHome";
     }
@@ -74,8 +75,9 @@ public class FridgeController {
     
     @PostMapping(value="/add")
 	public String addItem(@RequestParam String itemName, 
-						@RequestParam int count, @RequestParam Long fridgeId, Model model) {
-    	Long id = fridgeService.addItem(fridgeId, itemName, count);
+						@RequestParam String count, @RequestParam Long fridgeId, Model model) {
+    	int amount = count.isEmpty() ? 0 : Integer.valueOf(count);
+    	Long id = fridgeService.addItem(fridgeId, itemName, amount);
     	return "redirect:/refrigerator/"+id;
     }
     

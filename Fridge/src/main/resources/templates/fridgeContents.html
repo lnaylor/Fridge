@@ -24,6 +24,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"s>
 		</tr>
 	</table>
 	<a th:href="@{/refrigerator/add/{id}(id=${refrigerator.id})}">Add Item</a> <br/>
-	<a th:if="${sodaError}">Cannot have more than 12 cans of soda</a>
+	<a th:if="${sodaError}">Cannot have more than 12 cans of soda</a> <br th:if="${sodaError}"/>
+	<a th:href="@{/fridgeHome}">Back to Fridge Home</a> <br/>
 </body>
 </html>

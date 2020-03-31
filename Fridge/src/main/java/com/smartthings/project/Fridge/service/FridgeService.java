@@ -55,18 +55,26 @@ public class FridgeService {
 
 	    			i.setCount(i.getCount()+itemCount);
 	    			
-	    			if (itemNameStripped.equals(SODA) && i.getCount()>MAX_SODA) {
-	    				i.setCount(MAX_SODA);
-	    				setSodaError(true);
+	    			if (itemNameStripped.equals(SODA)) {
+	    				int numSodaCans=getTotalSodaCans();
+	    				if (numSodaCans+i.getCount()>MAX_SODA) {
+	    					i.setCount(MAX_SODA-numSodaCans);
+		    				setSodaError(true);
+	    				}
+	    				
 	    			}
 	    			itemRepository.save(i);
 	    			itemExists=true;
 	    		}
 	    	}
 	    	if (!itemExists) {
-	    		if (itemNameStripped.equals(SODA) && itemCount>MAX_SODA) {
-	    			itemCount=MAX_SODA;
-	    			setSodaError(true);
+	    		if (itemNameStripped.equals(SODA)) {
+	    			int numSodaCans=getTotalSodaCans();
+	    			if (numSodaCans+itemCount>MAX_SODA) {
+	    				itemCount=MAX_SODA-numSodaCans;
+		    			setSodaError(true);
+	    			}
+	    			
 	    		}
 	    		Item item = new Item(itemName, itemCount);
 	    		itemRepository.save(item);
@@ -85,6 +93,18 @@ public class FridgeService {
 	    	itemRepository.deleteById(itemId);
 	    	fridgeRepository.save(refrigerator);
 	    	return refrigerator.getId();
+	    }
+	    
+	    private int getTotalSodaCans() {
+	    	int numSodaCans=0;
+	    	for (Refrigerator r : fridgeRepository.findAll()) {
+	    		for (Item i : r.getItems()) {
+	    			if (i.getName().equals(SODA)) {
+	    				numSodaCans+=i.getCount();
+	    			}
+	    		}
+	    	}
+	    	return numSodaCans;
 	    }
 
 		public boolean isSodaError() {
