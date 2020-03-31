@@ -9,20 +9,27 @@ import javax.persistence.Id;
 public class Item {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 	private String name;
+	private String displayName;
 	private int count;
 	
 	public Item(String name) {
 		super();
-		this.name=name;
+		this.displayName=name;
+		this.name=name.toLowerCase().trim().replaceAll("\\s+", "");
 		this.count=1;
+	}
+	
+	public Item() {
+		super();
 	}
 	
 	public Item(String name, int count) {
 		super();
-		this.name=name;
+		this.displayName=name;
+		this.name=name.toLowerCase().trim().replaceAll("\\s+", "");
 		this.count=count;
 	}
 	
@@ -45,5 +52,13 @@ public class Item {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }
