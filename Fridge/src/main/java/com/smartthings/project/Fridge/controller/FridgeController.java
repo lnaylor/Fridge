@@ -1,5 +1,8 @@
 package com.smartthings.project.Fridge.controller;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,8 @@ import com.smartthings.project.Fridge.service.FridgeService;
 
 @Controller
 public class FridgeController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(FridgeController.class);
 	
 	@Autowired
 	FridgeService fridgeService;
@@ -42,6 +47,7 @@ public class FridgeController {
     @GetMapping("/refrigerator/{id}")
     public String getFridge(@PathVariable Long id, Model model) {
     	Refrigerator refrigerator = fridgeService.getFridgeById(id);
+    	LOGGER.info("Displaying information for fridge ID {}", id);
     	
     	model.addAttribute("refrigerator", refrigerator);
     	model.addAttribute("items", refrigerator.getItems());
@@ -51,6 +57,8 @@ public class FridgeController {
     
     @GetMapping("/refrigerator/update/{id}/{itemid}")
     public String updateItemView(@PathVariable Long id, @PathVariable Long itemid, Model model) {
+    	LOGGER.info("Update Item view for Fridge ID {} and Item ID {}", id, itemid);
+    	
     	model.addAttribute("refrigerator", fridgeService.getFridgeById(id));
     	model.addAttribute("item", fridgeService.getItemById(itemid));
         return "itemUpdate";
@@ -60,7 +68,7 @@ public class FridgeController {
 	public String updateItem(@RequestParam String itemName, @RequestParam String count, @RequestParam Long fridgeId, 
 			@RequestParam Long itemId, Model model) {
     	int amount = count.isEmpty() ? 0 : Integer.valueOf(count);
-  
+    	LOGGER.info("Updating item ID {} to have name {} and count {}", itemId, itemName, count);
     	fridgeService.deleteItem(fridgeId, itemId);
     	Long id = fridgeService.addItem(fridgeId, itemName, amount);
     	
@@ -69,6 +77,7 @@ public class FridgeController {
     
     @GetMapping("/refrigerator/add/{id}")
     public String addItemView(@PathVariable Long id, Model model) {
+    	LOGGER.info("Add Item view for fridge ID {}", id);
     	model.addAttribute("refrigerator", fridgeService.getFridgeById(id));
         return "itemAdd";
     }
@@ -85,6 +94,11 @@ public class FridgeController {
     public String deleteFridgeItem(@PathVariable Long id, @PathVariable Long itemid, Model model) {
     	Long fridgeId = fridgeService.deleteItem(id, itemid);
         return "redirect:/refrigerator/"+fridgeId;
+    }
+    
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "admin";
     }
     
 }
