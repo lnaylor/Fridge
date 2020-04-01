@@ -15,11 +15,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"s>
 			<td th:text="${item.displayName}"></td>
 			<td th:text="${item.count}"></td>
 			<td>
-				<a sec:authorize="hasRole('ADMIN')" th:href="@{/refrigerator/update/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Update</a>
+				<a th:href="@{/refrigerator/update/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Update</a>
 			</td>
 			
 			<td>
-				<a sec:authorize="hasRole('ADMIN')" th:href="@{/refrigerator/delete/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Delete</a>
+				<a th:href="@{/refrigerator/delete/{id}/{itemid} (id=${refrigerator.id}, itemid=${item.id})}">Delete</a>
 			</td>
 		</tr>
 	</table>

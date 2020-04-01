@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Home Page</title></head>
+<body>
+<h1>Refrigerators: </h1>
+		<a th:href="@{/actuator/health}">Health</a> <br/>
+		<a th:href="@{/actuator/metrics/process.uptime}">Process Uptime</a> <br/>
+        <a th:href="@{/fridgeHome}">Back to Fridge Home</a> <br/>
+</body>
+</html>

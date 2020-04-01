@@ -16,5 +16,7 @@
 	<form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
+        <br/>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Metrics</a> <br/>
 </body>
 </html>
