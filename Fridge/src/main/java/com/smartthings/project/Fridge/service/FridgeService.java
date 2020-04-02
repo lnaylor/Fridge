@@ -79,7 +79,8 @@ public class FridgeService {
 	    			
 	    			//if item already exists, increment its count instead of adding a new item
 	    			i.setCount(i.getCount()+itemCount);
-	    			itemRepository.save(i);
+		    		itemRepository.save(i);
+	    			
 	    			itemExists=true;
 	    		}
 	    	}
@@ -94,9 +95,11 @@ public class FridgeService {
 	    			}
 	    			
 	    		}
-	    		Item item = new Item(itemName, itemCount);
-	    		itemRepository.save(item);
-	    		refrigerator.getItems().add(item);
+	    		if (itemCount>0) {
+	    			Item item = new Item(itemName, itemCount);
+	    			itemRepository.save(item);
+		    		refrigerator.getItems().add(item);
+	    		}
 	    	}
 	    	
 	    	fridgeRepository.save(refrigerator);

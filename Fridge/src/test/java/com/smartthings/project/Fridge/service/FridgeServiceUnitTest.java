@@ -197,6 +197,17 @@ public class FridgeServiceUnitTest {
 	}
 	
 	@Test
+	public void testAddCanOfSodaExistingItemOverThreshold1OtherFridge() {
+		fridge.getItems().clear();
+		fridge2.getItems().add(new Item("canofsoda", 12));
+		fridgeService.addItem(1L, "Can of Soda", 6);
+		Mockito.verify(itemRepository, Mockito.times(0)).save(Mockito.any());
+		Mockito.verify(fridgeRepository, Mockito.times(1)).save(fridge);
+		assertTrue(fridgeService.isSodaError());
+		assertEquals(0, fridge.getItems().size());
+	}
+	
+	@Test
 	public void testDeleteItem() {
 		fridgeService.deleteItem(1L, 2L);
 		Mockito.verify(itemRepository, Mockito.times(1)).deleteById(2L);
