@@ -2,7 +2,7 @@
 RESTful API microservice for tracking/updating the fridge contents
 
 To run from IDE:
-FridgeApplication.java -> main -> Run as Java Application
+Fridge/src/main/java/com/smartthings/project/Fridge/FridgeApplication.java -> main -> Run as Java Application
 Or run
 mvn package
 java -jar Fridge*.jar
