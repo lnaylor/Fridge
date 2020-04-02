@@ -11,12 +11,12 @@ Then go to localhost:8080
 
 Available users:
 
-Admin: (Access to view metrics)
-Username: a
+Admin: (Access to view metrics)<br/>
+Username: a<br/>
 Password: a
 
-User:
-Username: u
+User:<br/>
+Username: u<br/>
 Password: u
 
 As a logged in user, there are two fridges available. In each fridge, users can add, delete, or update items. When updating an item, users may change the amount or name.
