@@ -18,8 +18,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
           .withUser("u").password(passwordEncoder().encode("u")).roles("USER")
           .and()
-          .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
-          .and()
           .withUser("a").password(passwordEncoder().encode("a")).roles("ADMIN");
     }
     
@@ -28,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/actuator/**").hasRole("ADMIN")
-				.antMatchers("admin/**").hasRole("ADMIN")
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/login").permitAll()
 				.anyRequest().authenticated()
 				.and()

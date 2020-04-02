@@ -33,11 +33,7 @@ public class FridgeService {
 	
 	@PostConstruct
 	public void init() {
-		Refrigerator r = new Refrigerator();
-		Item i = new Item("Milk", 1);
-		itemRepository.save(i);
-		r.getItems().add(i);
-		fridgeRepository.save(r);
+		fridgeRepository.save(new Refrigerator());
 		fridgeRepository.save(new Refrigerator());
 		LOGGER.info("Initialized {} refrigerators", fridgeRepository.count());
 	}
@@ -57,7 +53,7 @@ public class FridgeService {
 		return itemRepository.findById(id).get();
 	}
 	
-	public Long addItem(Long fridgeId, String itemName, int itemCount) {
+	public void addItem(Long fridgeId, String itemName, int itemCount) {
 		LOGGER.info("Adding item with name {} and count {} to fridge {}", itemName, itemCount, fridgeId);
 	    	Refrigerator refrigerator = fridgeRepository.findById(fridgeId).get();
 	    	this.setSodaError(false);
@@ -83,7 +79,8 @@ public class FridgeService {
 	    			
 	    			//if item already exists, increment its count instead of adding a new item
 	    			i.setCount(i.getCount()+itemCount);
-	    			itemRepository.save(i);
+		    		itemRepository.save(i);
+	    			
 	    			itemExists=true;
 	    		}
 	    	}
@@ -98,16 +95,17 @@ public class FridgeService {
 	    			}
 	    			
 	    		}
-	    		Item item = new Item(itemName, itemCount);
-	    		itemRepository.save(item);
-	    		refrigerator.getItems().add(item);
+	    		if (itemCount>0) {
+	    			Item item = new Item(itemName, itemCount);
+	    			itemRepository.save(item);
+		    		refrigerator.getItems().add(item);
+	    		}
 	    	}
 	    	
 	    	fridgeRepository.save(refrigerator);
-	    	return refrigerator.getId();
 	    }
 	    
-	    public Long deleteItem(Long fridgeId, Long itemId) {
+	    public void deleteItem(Long fridgeId, Long itemId) {
 	    	LOGGER.info("Deleting item ID {} from fridge {}", itemId, fridgeId);
 	    	Refrigerator refrigerator = fridgeRepository.findById(fridgeId).get();
 	    	this.setSodaError(false);
@@ -115,7 +113,6 @@ public class FridgeService {
 	    	refrigerator.getItems().remove(item);
 	    	itemRepository.deleteById(itemId);
 	    	fridgeRepository.save(refrigerator);
-	    	return refrigerator.getId();
 	    }
 	    
 	    private int getTotalSodaCans() {

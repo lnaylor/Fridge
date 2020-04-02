@@ -24,7 +24,7 @@ public class FridgeController {
 	
 	@GetMapping("/login")
     public String login(Model model) {
-        return "login";
+        return "loginPage";
     }
 	
 	@GetMapping("/accessDenied")
@@ -41,7 +41,7 @@ public class FridgeController {
     public String fridgeHome(Model model) {
     	fridgeService.setSodaError(false);
         model.addAttribute("fridges", fridgeService.getAllFridges());
-        return "fridgeHome";
+        return "fridgeHomePage";
     }
     
     @GetMapping("/refrigerator/{id}")
@@ -52,7 +52,7 @@ public class FridgeController {
     	model.addAttribute("refrigerator", refrigerator);
     	model.addAttribute("items", refrigerator.getItems());
     	model.addAttribute("sodaError", fridgeService.isSodaError());
-        return "fridgeContents";
+        return "fridgeContentsPage";
     }
     
     @GetMapping("/refrigerator/update/{id}/{itemid}")
@@ -61,7 +61,7 @@ public class FridgeController {
     	
     	model.addAttribute("refrigerator", fridgeService.getFridgeById(id));
     	model.addAttribute("item", fridgeService.getItemById(itemid));
-        return "itemUpdate";
+        return "itemUpdatePage";
     }
     
     @PostMapping(value="/update")
@@ -70,35 +70,39 @@ public class FridgeController {
     	int amount = count.isEmpty() ? 0 : Integer.valueOf(count);
     	LOGGER.info("Updating item ID {} to have name {} and count {}", itemId, itemName, count);
     	fridgeService.deleteItem(fridgeId, itemId);
-    	Long id = fridgeService.addItem(fridgeId, itemName, amount);
+    	if (amount>0) {
+    		fridgeService.addItem(fridgeId, itemName, amount);
+    	}
     	
-    	return "redirect:/refrigerator/"+id;
+    	return "redirect:/refrigerator/"+fridgeId;
     }
     
     @GetMapping("/refrigerator/add/{id}")
     public String addItemView(@PathVariable Long id, Model model) {
     	LOGGER.info("Add Item view for fridge ID {}", id);
     	model.addAttribute("refrigerator", fridgeService.getFridgeById(id));
-        return "itemAdd";
+        return "itemAddPage";
     }
     
     @PostMapping(value="/add")
 	public String addItem(@RequestParam String itemName, 
 						@RequestParam String count, @RequestParam Long fridgeId, Model model) {
     	int amount = count.isEmpty() ? 0 : Integer.valueOf(count);
-    	Long id = fridgeService.addItem(fridgeId, itemName, amount);
-    	return "redirect:/refrigerator/"+id;
+    	if (amount>0) {
+    		fridgeService.addItem(fridgeId, itemName, amount);
+    	}
+    	return "redirect:/refrigerator/"+fridgeId;
     }
     
     @GetMapping("/refrigerator/delete/{id}/{itemid}")
     public String deleteFridgeItem(@PathVariable Long id, @PathVariable Long itemid, Model model) {
-    	Long fridgeId = fridgeService.deleteItem(id, itemid);
-        return "redirect:/refrigerator/"+fridgeId;
+    	fridgeService.deleteItem(id, itemid);
+        return "redirect:/refrigerator/"+id;
     }
     
     @GetMapping("/admin")
     public String admin(Model model) {
-        return "admin";
+        return "adminPage";
     }
     
 }
